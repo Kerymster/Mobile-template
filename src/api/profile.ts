@@ -11,7 +11,7 @@ export const selectProfile = async (
   profileId: number
 ): Promise<{ token: string }> => {
   const response = await client.post('/api/a2srv-client/profiles/select', {
-    id: profileId,
+    id: profileId.toString(), // API expects string format
   });
   return response.data;
 };

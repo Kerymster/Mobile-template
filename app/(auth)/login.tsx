@@ -14,13 +14,24 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     try {
+      if (!username || !password) {
+        Alert.alert('Error', 'Please enter both username and password.');
+        return;
+      }
+
       const data = await login(username, password);
       setLoginToken(data.token);
       await AsyncStorage.setItem('loginToken', data.token);
 
-      router.push('/(auth)/profiles'); // navigate to Profile Selection
-    } catch (err) {
-      Alert.alert('Login failed', 'Please check your credentials.');
+      router.push('/(auth)/profiles');
+    } catch (error: any) {
+      console.error('Login error details:', error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.message ||
+        'Please check your credentials.';
+      Alert.alert('Login failed', errorMessage);
     }
   };
 

@@ -11,12 +11,13 @@ const client = axios.create({
 });
 
 client.interceptors.request.use(async (config) => {
-  const token = await AsyncStorage.getItem('loginToken'); // or profileToken if needed
-  if (token) {
-    config.headers = {
-      ...config.headers,
-      Authorization: `Bearer ${token}`,
-    };
+  // Prioritize profileToken over loginToken
+  let token = await AsyncStorage.getItem('profileToken');
+  if (!token) {
+    token = await AsyncStorage.getItem('loginToken');
+  }
+  if (token && config.headers) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });

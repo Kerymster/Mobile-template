@@ -27,6 +27,8 @@ export interface Label {
 export interface ContentItem {
   id: number;
   poster: string;
+  title?: string;
+  name?: string;
 }
 
 export interface LoginResponse {

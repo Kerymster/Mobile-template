@@ -9,52 +9,46 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import client from '../../src/api/client';
-
-interface Banner {
-  id: number;
-  poster: string;
-}
-
-interface Category {
-  id: number;
-  name: string;
-}
-
-interface MenuDetail {
-  id: number;
-  name: string;
-  banners: Banner[];
-  categories: Category[];
-}
+import { getBannerAndCategories } from '../../src/api/categories';
+import { Banner, Category } from '../../src/utils/types';
 
 export default function CategoryScreen() {
-  const { menuId, menuName } = useLocalSearchParams<{
-    menuId: string;
-    menuName: string;
+  const params = useLocalSearchParams<{
+    menuId: string | string[];
+    menuName: string | string[];
   }>();
-  const [data, setData] = useState<MenuDetail | null>(null);
+  // Handle array case from useLocalSearchParams
+  const menuId = Array.isArray(params.menuId)
+    ? params.menuId[0]
+    : params.menuId;
+  const menuName = Array.isArray(params.menuName)
+    ? params.menuName[0]
+    : params.menuName;
+
+  const [banners, setBanners] = useState<Banner[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchMenuDetail = async () => {
+    const fetchBannerAndCategories = async () => {
       try {
-        const response = await client.get<MenuDetail>(`/api/menu/${menuId}`);
-        setData(response.data);
+        const data = await getBannerAndCategories(Number(menuId));
+        setBanners(data.banners);
+        setCategories(data.categories);
       } catch (err) {
-        console.log('Error fetching menu detail', err);
+        console.log('Error fetching banner and categories', err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMenuDetail();
+    if (menuId) {
+      fetchBannerAndCategories();
+    }
   }, [menuId]);
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />;
-
-  if (!data) return <Text>No data available</Text>;
 
   return (
     <View style={{ flex: 1, padding: 16 }}>
@@ -62,28 +56,26 @@ export default function CategoryScreen() {
         {menuName}
       </Text>
 
-      <FlatList
-        horizontal
-        data={data.banners}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <Image
-            source={{
-              uri: `https://atlas.saatteknoloji.com.tr/${item.poster}`,
-            }}
-            style={{
-              width: 200,
-              height: 120,
-              marginRight: 12,
-              borderRadius: 6,
-            }}
-          />
-        )}
-        style={{ marginBottom: 16 }}
-      />
+      {banners.length > 0 && (
+        <FlatList
+          horizontal
+          data={banners}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <Image
+              source={{
+                uri: `https://atlas.saatteknoloji.com.tr/${item.poster}`,
+              }}
+              style={styles.bannerImage}
+            />
+          )}
+          style={{ marginBottom: 16 }}
+          showsHorizontalScrollIndicator={false}
+        />
+      )}
 
       <FlatList
-        data={data.categories}
+        data={categories}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
@@ -91,13 +83,17 @@ export default function CategoryScreen() {
             onPress={() =>
               router.push({
                 pathname: '/(tabs)/labels',
-                params: { categoryId: item.id, categoryName: item.name },
+                params: {
+                  categoryId: item.id.toString(),
+                  categoryName: item.name,
+                },
               })
             }
           >
             <Text>{item.name}</Text>
           </TouchableOpacity>
         )}
+        contentContainerStyle={{ paddingBottom: 16 }}
       />
     </View>
   );
@@ -109,6 +105,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     marginBottom: 12,
+    borderRadius: 6,
+  },
+  bannerImage: {
+    width: 200,
+    height: 120,
+    marginRight: 12,
     borderRadius: 6,
   },
 });
