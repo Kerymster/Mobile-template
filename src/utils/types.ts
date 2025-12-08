@@ -13,11 +13,6 @@ export interface MenuItem {
   name: string;
 }
 
-export interface Banner {
-  id: number;
-  poster: string;
-}
-
 export interface Category {
   id: number;
   name: string;
@@ -51,4 +46,39 @@ export type ProfilesResponse = Profile[];
 
 export interface ProfilesApiResponse {
   data: Profile[];
+}
+
+interface person {
+  name: string;
+  id: number;
+}
+
+export interface IPoster {
+  type: string;
+  url: string;
+  vertical: boolean;
+}
+export interface Banner {
+  actors: person[];
+  country: string;
+  director: person[];
+  duration: number;
+  genre: string[];
+  id: number;
+  imdbRating: number;
+  originalTitle: string;
+  posters: IPoster[];
+  summary: string;
+  summaryLong: string;
+  title: string;
+  trailerUrl: string;
+  year: number;
+  type: string;
+}
+
+export interface BannerAndCategoriesResponse {
+  banners: Banner[];
+  categories: Category[];
+  id: number;
+  name: string;
 }

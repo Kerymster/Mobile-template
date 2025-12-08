@@ -1,18 +1,10 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { API_URL } from '~/constants';
+import { getAuthTokenOrThrow } from '../utils/auth';
 import { Profile } from '../utils/types';
 
 export const getProfiles = async (): Promise<Profile[]> => {
-  // Get token from AsyncStorage
-  let token = await AsyncStorage.getItem('profileToken');
-  if (!token) {
-    token = await AsyncStorage.getItem('loginToken');
-  }
-
-  if (!token) {
-    throw new Error('No authentication token found');
-  }
+  const token = await getAuthTokenOrThrow();
 
   const response = await axios.get<Profile[]>(`${API_URL}/client/profiles`, {
     headers: {
@@ -28,18 +20,7 @@ export const getProfiles = async (): Promise<Profile[]> => {
 export const selectProfile = async (
   profileId: number
 ): Promise<{ token: string }> => {
-  let token = await AsyncStorage.getItem('profileToken');
-  if (!token) {
-    token = await AsyncStorage.getItem('loginToken');
-  }
-
-  if (!token) {
-    throw new Error('No authentication token found');
-  }
-
-  console.log('selectProfile token', token);
-  console.log('selectProfile profileId', profileId);
-  console.log('selectProfile API_URL', `${API_URL}/client/profiles/select`);
+  const token = await getAuthTokenOrThrow();
 
   const response = await axios.post<{ token: string }>(
     `${API_URL}/client/profiles/select`,
@@ -54,8 +35,6 @@ export const selectProfile = async (
       },
     }
   );
-
-  console.log('selectProfile response', response.status);
 
   return response.data;
 };
