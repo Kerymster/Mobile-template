@@ -1,5 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { API_URL } from '~/constants';
 import { Banner, Category } from '../utils/types';
-import client from './client';
 
 export interface MenuDetailResponse {
   id: number;
@@ -9,8 +11,27 @@ export interface MenuDetailResponse {
 }
 
 export const getBannerAndCategories = async (
-  menuId: number
+  menuId: string
 ): Promise<MenuDetailResponse> => {
-  const response = await client.get<MenuDetailResponse>(`/api/menu/${menuId}`);
+  let token = await AsyncStorage.getItem('profileToken');
+  if (!token) {
+    token = await AsyncStorage.getItem('loginToken');
+  }
+
+  if (!token) {
+    throw new Error('No authentication token found');
+  }
+
+  const response = await axios.get<MenuDetailResponse>(
+    `${API_URL}/client/menu/${menuId}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
   return response.data;
 };

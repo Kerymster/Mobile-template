@@ -35,7 +35,7 @@ export default function CategoryScreen() {
   useEffect(() => {
     const fetchBannerAndCategories = async () => {
       try {
-        const data = await getBannerAndCategories(Number(menuId));
+        const data = await getBannerAndCategories(menuId);
         setBanners(data.banners);
         setCategories(data.categories);
       } catch (err) {

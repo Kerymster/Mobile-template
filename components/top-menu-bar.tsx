@@ -29,7 +29,9 @@ export function TopMenuBar() {
     : null;
 
   return (
-    <View style={[styles.container, { paddingTop: Math.max(insets.top, 12) }]}>
+    <View
+      style={[styles.container, { paddingTop: Math.max(insets.top, 12) + 8 }]}
+    >
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
