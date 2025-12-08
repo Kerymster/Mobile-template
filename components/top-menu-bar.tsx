@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MenuContext } from '../src/context/MenuContext';
 
 export function TopMenuBar() {
@@ -14,6 +15,7 @@ export function TopMenuBar() {
   const router = useRouter();
   const pathname = usePathname();
   const params = useLocalSearchParams<{ menuId?: string | string[] }>();
+  const insets = useSafeAreaInsets();
 
   if (menuItems.length === 0) {
     return null;
@@ -27,7 +29,7 @@ export function TopMenuBar() {
     : null;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: Math.max(insets.top, 12) }]}>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}

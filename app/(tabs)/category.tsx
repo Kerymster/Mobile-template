@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TopMenuBar } from '../../components/top-menu-bar';
 import { getBannerAndCategories } from '../../src/api/categories';
 import { Banner, Category } from '../../src/utils/types';
@@ -52,7 +53,7 @@ export default function CategoryScreen() {
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />;
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
       <TopMenuBar />
       <View style={{ flex: 1, padding: 16 }}>
         <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 12 }}>
@@ -99,7 +100,7 @@ export default function CategoryScreen() {
           contentContainerStyle={{ paddingBottom: 16 }}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

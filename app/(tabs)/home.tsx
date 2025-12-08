@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TopMenuBar } from '../../components/top-menu-bar';
 import { MenuContext } from '../../src/context/MenuContext';
 import { ProfileContext } from '../../src/context/ProfileContext';
@@ -11,7 +12,7 @@ export default function HomeScreen() {
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />;
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
       <TopMenuBar />
       <View style={styles.content}>
         <Text style={styles.welcomeText}>
@@ -21,7 +22,7 @@ export default function HomeScreen() {
           Select a category from the menu above to get started.
         </Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

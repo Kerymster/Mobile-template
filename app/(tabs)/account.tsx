@@ -1,17 +1,18 @@
 import { useContext } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { ProfileContext } from '../../src/context/ProfileContext';
 
 export default function AccountScreen() {
   const { selectedProfile } = useContext(ProfileContext);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <Text style={styles.title}>Hesabım</Text>
       <Text style={styles.subtitle}>
         {selectedProfile?.name || 'User'} - Account settings coming soon...
       </Text>
-    </View>
+    </SafeAreaView>
   );
 }
 

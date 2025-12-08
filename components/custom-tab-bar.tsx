@@ -2,19 +2,47 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ProductsIcon from '../assets/icons/products.svg';
+import SearchIcon from '../assets/icons/search.svg';
+import TabBarHomeIcon from '../assets/icons/tabbar-home.svg';
+import TabBarUserIcon from '../assets/icons/tabbar-user.svg';
 
 interface TabItem {
   name: string;
   label: string;
   route: string;
-  icon?: string;
+  IconComponent: React.ComponentType<{
+    width?: number;
+    height?: number;
+    color?: string;
+  }>;
 }
 
 const tabs: TabItem[] = [
-  { name: 'home', label: 'Anasayfa', route: '/(tabs)/home' },
-  { name: 'search', label: 'Arama', route: '/(tabs)/search' },
-  { name: 'live-tv', label: 'Canlı TV', route: '/(tabs)/live-tv' },
-  { name: 'account', label: 'Hesabım', route: '/(tabs)/account' },
+  {
+    name: 'home',
+    label: 'Anasayfa',
+    route: '/(tabs)/home',
+    IconComponent: TabBarHomeIcon,
+  },
+  {
+    name: 'search',
+    label: 'Arama',
+    route: '/(tabs)/search',
+    IconComponent: SearchIcon,
+  },
+  {
+    name: 'live-tv',
+    label: 'Canlı TV',
+    route: '/(tabs)/live-tv',
+    IconComponent: ProductsIcon,
+  },
+  {
+    name: 'account',
+    label: 'Hesabım',
+    route: '/(tabs)/account',
+    IconComponent: TabBarUserIcon,
+  },
 ];
 
 export function CustomTabBar({
@@ -56,6 +84,9 @@ export function CustomTabBar({
           });
         };
 
+        const Icon = tab.IconComponent;
+        const iconColor = isFocused ? '#007AFF' : '#666';
+
         return (
           <TouchableOpacity
             key={tab.name}
@@ -66,6 +97,9 @@ export function CustomTabBar({
             onLongPress={onLongPress}
             style={styles.tabItem}
           >
+            <View style={styles.iconContainer}>
+              <Icon width={24} height={24} color={iconColor} />
+            </View>
             <Text
               style={[styles.tabLabel, isFocused && styles.tabLabelFocused]}
             >
@@ -95,10 +129,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 8,
   },
+  iconContainer: {
+    marginBottom: 4,
+  },
   tabLabel: {
     fontSize: 12,
     color: '#666',
-    marginTop: 4,
   },
   tabLabelFocused: {
     color: '#007AFF',
