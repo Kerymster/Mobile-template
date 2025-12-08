@@ -1,7 +1,11 @@
 export interface Profile {
   id: number;
   name: string;
+  posterName: string;
+  kid: boolean;
   hasPin: boolean;
+  deviceQuota: number | null;
+  main: boolean;
 }
 
 export interface MenuItem {
@@ -32,5 +36,19 @@ export interface ContentItem {
 }
 
 export interface LoginResponse {
-  token: string;
+  access_token: string;
+  expires_in: number;
+  id_token: string;
+  not_before_policy: number;
+  refresh_expires_in: number;
+  refresh_token: string;
+  scope: string;
+  session_state: string;
+  token_type: string;
+}
+
+export type ProfilesResponse = Profile[];
+
+export interface ProfilesApiResponse {
+  data: Profile[];
 }

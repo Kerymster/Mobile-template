@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { TopMenuBar } from '../../components/top-menu-bar';
 import { MenuContext } from '../../src/context/MenuContext';
 import { ProfileContext } from '../../src/context/ProfileContext';
 
@@ -10,20 +11,38 @@ export default function HomeScreen() {
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />;
 
   return (
-    <View
-      style={{
-        flex: 1,
-        padding: 16,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 12 }}>
-        Welcome, {selectedProfile?.name || 'User'}
-      </Text>
-      <Text style={{ fontSize: 14, color: '#666', textAlign: 'center' }}>
-        Select a category from the menu below to get started.
-      </Text>
+    <View style={styles.container}>
+      <TopMenuBar />
+      <View style={styles.content}>
+        <Text style={styles.welcomeText}>
+          Welcome, {selectedProfile?.name || 'User'}
+        </Text>
+        <Text style={styles.subtitle}>
+          Select a category from the menu above to get started.
+        </Text>
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  content: {
+    flex: 1,
+    padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  welcomeText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 12,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+  },
+});

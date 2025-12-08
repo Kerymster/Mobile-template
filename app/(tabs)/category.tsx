@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { TopMenuBar } from '../../components/top-menu-bar';
 import { getBannerAndCategories } from '../../src/api/categories';
 import { Banner, Category } from '../../src/utils/types';
 
@@ -51,50 +52,53 @@ export default function CategoryScreen() {
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />;
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 12 }}>
-        {menuName}
-      </Text>
+    <View style={{ flex: 1 }}>
+      <TopMenuBar />
+      <View style={{ flex: 1, padding: 16 }}>
+        <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 12 }}>
+          {menuName}
+        </Text>
 
-      {banners.length > 0 && (
+        {banners.length > 0 && (
+          <FlatList
+            horizontal
+            data={banners}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <Image
+                source={{
+                  uri: `https://atlas.saatteknoloji.com.tr/${item.poster}`,
+                }}
+                style={styles.bannerImage}
+              />
+            )}
+            style={{ marginBottom: 16 }}
+            showsHorizontalScrollIndicator={false}
+          />
+        )}
+
         <FlatList
-          horizontal
-          data={banners}
+          data={categories}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <Image
-              source={{
-                uri: `https://atlas.saatteknoloji.com.tr/${item.poster}`,
-              }}
-              style={styles.bannerImage}
-            />
+            <TouchableOpacity
+              style={styles.item}
+              onPress={() =>
+                router.push({
+                  pathname: '/(tabs)/labels',
+                  params: {
+                    categoryId: item.id.toString(),
+                    categoryName: item.name,
+                  },
+                })
+              }
+            >
+              <Text>{item.name}</Text>
+            </TouchableOpacity>
           )}
-          style={{ marginBottom: 16 }}
-          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 16 }}
         />
-      )}
-
-      <FlatList
-        data={categories}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.item}
-            onPress={() =>
-              router.push({
-                pathname: '/(tabs)/labels',
-                params: {
-                  categoryId: item.id.toString(),
-                  categoryName: item.name,
-                },
-              })
-            }
-          >
-            <Text>{item.name}</Text>
-          </TouchableOpacity>
-        )}
-        contentContainerStyle={{ paddingBottom: 16 }}
-      />
+      </View>
     </View>
   );
 }

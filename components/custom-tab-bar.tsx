@@ -1,97 +1,41 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { usePathname, useRouter } from 'expo-router';
-import { useContext } from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { MenuContext } from '../src/context/MenuContext';
+import { useRouter } from 'expo-router';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+interface TabItem {
+  name: string;
+  label: string;
+  route: string;
+  icon?: string;
+}
+
+const tabs: TabItem[] = [
+  { name: 'home', label: 'Anasayfa', route: '/(tabs)/home' },
+  { name: 'search', label: 'Arama', route: '/(tabs)/search' },
+  { name: 'live-tv', label: 'Canlı TV', route: '/(tabs)/live-tv' },
+  { name: 'account', label: 'Hesabım', route: '/(tabs)/account' },
+];
 
 export function CustomTabBar({
   state,
   descriptors,
   navigation,
 }: BottomTabBarProps) {
-  const { menuItems } = useContext(MenuContext);
   const router = useRouter();
-  const pathname = usePathname();
-
-  if (menuItems.length > 0) {
-    const currentRoute = state.routes[state.index];
-    const isCategoryScreen = pathname?.includes('/category');
-    const currentMenuId = (currentRoute.params as { menuId?: string })?.menuId;
-
-    return (
-      <View style={styles.container}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContent}
-        >
-          <TouchableOpacity
-            style={[
-              styles.tabItem,
-              pathname === '/(tabs)/home' && styles.tabItemActive,
-            ]}
-            onPress={() => {
-              router.push('/(tabs)/home');
-            }}
-          >
-            <Text
-              style={[
-                styles.tabLabel,
-                pathname === '/(tabs)/home' && styles.tabLabelFocused,
-              ]}
-            >
-              Home
-            </Text>
-          </TouchableOpacity>
-
-          {menuItems.map((item) => {
-            const isActive =
-              isCategoryScreen && currentMenuId === item.id.toString();
-            return (
-              <TouchableOpacity
-                key={item.id}
-                style={[styles.tabItem, isActive && styles.tabItemActive]}
-                onPress={() => {
-                  router.push({
-                    pathname: '/(tabs)/category',
-                    params: {
-                      menuId: item.id.toString(),
-                      menuName: item.name,
-                    },
-                  });
-                }}
-              >
-                <Text
-                  style={[styles.tabLabel, isActive && styles.tabLabelFocused]}
-                >
-                  {item.name}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
-    );
-  }
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={styles.container}>
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
+    <View
+      style={[styles.container, { paddingBottom: Math.max(insets.bottom, 12) }]}
+    >
+      {tabs.map((tab) => {
+        const route = state.routes.find((r) => r.name === tab.name);
+        if (!route) return null;
 
-        const isFocused = state.index === index;
+        const { options } = descriptors[route.key];
+        const isFocused =
+          state.index === state.routes.findIndex((r) => r.name === tab.name);
 
         const onPress = () => {
           const event = navigation.emit({
@@ -101,15 +45,7 @@ export function CustomTabBar({
           });
 
           if (!isFocused && !event.defaultPrevented) {
-            const routePath = `/(tabs)/${route.name}`;
-            if (route.params && Object.keys(route.params).length > 0) {
-              router.push({
-                pathname: routePath as any,
-                params: route.params as Record<string, any>,
-              });
-            } else {
-              router.push(routePath as any);
-            }
+            router.push(tab.route as any);
           }
         };
 
@@ -122,10 +58,10 @@ export function CustomTabBar({
 
         return (
           <TouchableOpacity
-            key={route.key}
+            key={tab.name}
             accessibilityRole='button'
             accessibilityState={isFocused ? { selected: true } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
+            accessibilityLabel={options.tabBarAccessibilityLabel || tab.label}
             onPress={onPress}
             onLongPress={onLongPress}
             style={styles.tabItem}
@@ -133,7 +69,7 @@ export function CustomTabBar({
             <Text
               style={[styles.tabLabel, isFocused && styles.tabLabelFocused]}
             >
-              {typeof label === 'string' ? label : route.name}
+              {tab.label}
             </Text>
           </TouchableOpacity>
         );
@@ -148,27 +84,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: '#e0e0e0',
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-  },
-  scrollContent: {
-    paddingHorizontal: 4,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
   tabItem: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 16,
     paddingVertical: 8,
-    minWidth: 80,
-    marginHorizontal: 4,
-    borderRadius: 8,
-  },
-  tabItemActive: {
-    backgroundColor: '#f0f0f0',
   },
   tabLabel: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#666',
+    marginTop: 4,
   },
   tabLabelFocused: {
     color: '#007AFF',

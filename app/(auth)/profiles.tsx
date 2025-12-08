@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { useContext, useEffect, useState } from 'react';
 import {
@@ -37,9 +36,9 @@ export default function ProfileSelectionScreen() {
       const data = await selectProfile(profile.id);
       setProfileToken(data.token);
       setSelectedProfile(profile);
-      await AsyncStorage.setItem('profileToken', data.token);
+      //await AsyncStorage.setItem('profileToken', data.token);
 
-      router.push('/(tabs)/home'); // navigate to Home screen
+      router.push('/(tabs)/home'); 
     } catch (err) {
       console.log('Error selecting profile', err);
     }

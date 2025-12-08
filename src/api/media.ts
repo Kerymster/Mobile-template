@@ -1,5 +1,5 @@
-import client from './client';
 import { ContentItem } from '../utils/types';
+import client from './client';
 
 export interface LabelDetailResponse {
   labelId: number;

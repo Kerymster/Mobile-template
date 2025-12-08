@@ -1,5 +1,5 @@
-import client from './client';
 import { Label } from '../utils/types';
+import client from './client';
 
 export interface CategoryDetailResponse {
   id: number;

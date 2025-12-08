@@ -12,13 +12,31 @@ export default function TabsLayout() {
       <Tabs.Screen
         name='home'
         options={{
-          title: 'Home',
+          title: 'Anasayfa',
+        }}
+      />
+      <Tabs.Screen
+        name='search'
+        options={{
+          title: 'Arama',
+        }}
+      />
+      <Tabs.Screen
+        name='live-tv'
+        options={{
+          title: 'Canlı TV',
+        }}
+      />
+      <Tabs.Screen
+        name='account'
+        options={{
+          title: 'Hesabım',
         }}
       />
       <Tabs.Screen
         name='category'
         options={{
-          href: null, 
+          href: null,
         }}
       />
       <Tabs.Screen

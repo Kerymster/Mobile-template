@@ -1,0 +1,34 @@
+import { useContext } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { ProfileContext } from '../../src/context/ProfileContext';
+
+export default function AccountScreen() {
+  const { selectedProfile } = useContext(ProfileContext);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Hesabım</Text>
+      <Text style={styles.subtitle}>
+        {selectedProfile?.name || 'User'} - Account settings coming soon...
+      </Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#666',
+  },
+});

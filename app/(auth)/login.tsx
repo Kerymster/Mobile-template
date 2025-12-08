@@ -20,8 +20,8 @@ export default function LoginScreen() {
       }
 
       const data = await login(username, password);
-      setLoginToken(data.token);
-      await AsyncStorage.setItem('loginToken', data.token);
+      setLoginToken(data.access_token);
+      await AsyncStorage.setItem('loginToken', data.access_token);
 
       router.push('/(auth)/profiles');
     } catch (error: any) {

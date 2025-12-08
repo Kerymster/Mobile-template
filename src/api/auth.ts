@@ -1,24 +1,30 @@
 import axios from 'axios';
-
-const BASE_URL = 'https://atlas.saatteknoloji.com.tr';
-
-interface LoginResponse {
-  token: string;
-}
+import { API_URL } from '~/constants';
+import { LoginResponse } from '~/utils/types';
 
 export const login = async (
   username: string,
   password: string
 ): Promise<LoginResponse> => {
+  // Validate inputs
+  const trimmedUsername = username?.trim() || '';
+  const trimmedPassword = password?.trim() || '';
+
+  if (!trimmedUsername || !trimmedPassword) {
+    throw new Error('Username and password are required');
+  }
+
   const response = await axios.post<LoginResponse>(
-    `${BASE_URL}/api/a2srv-client/auth/login`,
+    `${API_URL}/auth/user/login`,
     {
-      username,
-      password,
+      username: trimmedUsername,
+      password: trimmedPassword,
     },
     {
       headers: {
         'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'Content-Length': '52',
       },
     }
   );
