@@ -8,6 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { getLabels } from '../../src/api/labels';
 import { getMediaList } from '../../src/api/media';
 import { ContentItem, Label } from '../../src/utils/types';
@@ -168,8 +169,9 @@ export default function LabelsScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.categoryTitle}>{categoryName}</Text>
+    <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
+      <View style={styles.container}>
+        <Text style={styles.categoryTitle}>{categoryName}</Text>
 
       {labelsWithMedia.length === 0 ? (
         <EmptyState message='No labels available' />
@@ -181,7 +183,8 @@ export default function LabelsScreen() {
           contentContainerStyle={styles.listContainer}
         />
       )}
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
