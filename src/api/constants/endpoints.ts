@@ -6,6 +6,7 @@ export const ENDPOINTS = {
 
   //Client endpoints
   PROFILES: () => `${API_URL}/client/profiles`,
+  SELECT_PROFILE: () => `${API_URL}/client/profiles/select`,
 
   //Menu endpoints
   MENU: () => `${API_URL}/client/menu`,

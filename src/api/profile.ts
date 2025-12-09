@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { API_URL } from '~/constants';
 import { getAuthTokenOrThrow } from '../utils/auth';
-import { Profile } from '../utils/types';
+import { Profile, ProfilesResponse } from '../utils/types';
+import { ENDPOINTS } from './constants/endpoints';
 
 export const getProfiles = async (): Promise<Profile[]> => {
   const token = await getAuthTokenOrThrow();
 
-  const response = await axios.get<Profile[]>(`${API_URL}/client/profiles`, {
+  const response = await axios.get<ProfilesResponse>(ENDPOINTS.PROFILES(), {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -14,7 +14,7 @@ export const getProfiles = async (): Promise<Profile[]> => {
     },
   });
 
-  return response.data.filter((p) => p.hasPin === false);
+  return response.data;
 };
 
 export const selectProfile = async (
@@ -23,7 +23,7 @@ export const selectProfile = async (
   const token = await getAuthTokenOrThrow();
 
   const response = await axios.post<{ token: string }>(
-    `${API_URL}/client/profiles/select`,
+    ENDPOINTS.SELECT_PROFILE(),
     {
       id: profileId,
     },

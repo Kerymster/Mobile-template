@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { useContext, useState } from 'react';
 import { Alert, Button, StyleSheet, TextInput, View } from 'react-native';
+import Logo from '../../assets/icons/logo.svg';
 import { login } from '../../src/api/auth';
 import { AuthContext } from '../../src/context/AuthContext';
 
@@ -14,29 +15,21 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     try {
-      if (!username || !password) {
-        Alert.alert('Error', 'Please enter both username and password.');
-        return;
-      }
-
       const data = await login(username, password);
       setLoginToken(data.access_token);
       await AsyncStorage.setItem('loginToken', data.access_token);
 
       router.push('/(auth)/profiles');
-    } catch (error: any) {
-      console.error('Login error details:', error);
-      const errorMessage =
-        error?.response?.data?.message ||
-        error?.response?.data?.error ||
-        error?.message ||
-        'Please check your credentials.';
-      Alert.alert('Login failed', errorMessage);
+    } catch {
+      Alert.alert('Login failed', 'Please check your credentials.');
     }
   };
 
   return (
     <View style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Logo width={200} height={82} fill='#fff' color='#fff' />
+      </View>
       <TextInput
         placeholder='Username'
         value={username}
@@ -50,13 +43,21 @@ export default function LoginScreen() {
         style={styles.input}
         secureTextEntry
       />
-      <Button title='Login' onPress={handleLogin} />
+      <Button
+        title='Login'
+        onPress={handleLogin}
+        disabled={!username || !password}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 16 },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
