@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRouter } from 'expo-router';
+import { RelativePathString, useRouter } from 'expo-router';
 import { useContext, useState } from 'react';
 import { Alert, Button, StyleSheet, TextInput, View } from 'react-native';
+import { ROUTES } from '~/constants/routes';
 import Logo from '../../assets/icons/logo.svg';
 import { login } from '../../src/api/auth';
 import { AuthContext } from '../../src/context/AuthContext';
@@ -19,7 +20,7 @@ export default function LoginScreen() {
       setLoginToken(data.access_token);
       await AsyncStorage.setItem('loginToken', data.access_token);
 
-      router.push('/(auth)/profiles');
+      router.push(ROUTES.PROFILES as RelativePathString);
     } catch {
       Alert.alert('Login failed', 'Please check your credentials.');
     }

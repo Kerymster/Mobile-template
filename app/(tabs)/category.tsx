@@ -1,4 +1,8 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import {
+  RelativePathString,
+  useLocalSearchParams,
+  useRouter,
+} from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -11,6 +15,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ROUTES } from '~/constants/routes';
 import { getBannerAndCategories } from '../../src/api/categories';
 import { TopMenuBar } from '../../src/components/common/top-menu-bar';
 import { Banner, Category } from '../../src/utils/types';
@@ -97,7 +102,7 @@ export default function CategoryScreen() {
               style={styles.item}
               onPress={() =>
                 router.push({
-                  pathname: '/(tabs)/labels',
+                  pathname: ROUTES.LABELS as RelativePathString,
                   params: {
                     categoryId: item.id.toString(),
                     categoryName: item.name,

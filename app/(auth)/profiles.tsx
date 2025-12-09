@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { RelativePathString, useRouter } from 'expo-router';
 import { useContext, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { ROUTES } from '~/constants/routes';
 import ProfileChildIcon from '../../assets/icons/profile-child.svg';
 import ProfileDefaultIcon from '../../assets/icons/profile-default.svg';
 import { getProfiles, selectProfile } from '../../src/api/profile';
@@ -43,7 +44,7 @@ export default function ProfileSelectionScreen() {
       setSelectedProfile(profile);
       //await AsyncStorage.setItem('profileToken', data.token);
 
-      router.push('/(tabs)/home');
+      router.push(ROUTES.HOME as RelativePathString);
     } catch {
       Alert.alert('Error selecting profile', 'Please try again later.');
     }

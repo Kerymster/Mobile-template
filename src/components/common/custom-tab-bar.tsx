@@ -1,5 +1,5 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { useRouter } from 'expo-router';
+import { RelativePathString, useRouter } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TabItem } from '~/utils/types';
@@ -63,7 +63,7 @@ export function CustomTabBar({
           });
 
           if (!isFocused && !event.defaultPrevented) {
-            router.push(tab.route as any);
+            router.push(tab.route as RelativePathString);
           }
         };
 

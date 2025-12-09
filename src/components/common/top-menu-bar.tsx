@@ -1,4 +1,9 @@
-import { useLocalSearchParams, usePathname, useRouter } from 'expo-router';
+import {
+  RelativePathString,
+  useLocalSearchParams,
+  usePathname,
+  useRouter,
+} from 'expo-router';
 import { useContext } from 'react';
 import {
   ScrollView,
@@ -7,6 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { ROUTES } from '~/constants/routes';
 import { MenuContext } from '../../../src/context/MenuContext';
 
 export function TopMenuBar() {
@@ -42,7 +48,7 @@ export function TopMenuBar() {
               style={[styles.menuItem, isActive && styles.menuItemActive]}
               onPress={() => {
                 router.push({
-                  pathname: '/(tabs)/category',
+                  pathname: ROUTES.CATEGORY as RelativePathString,
                   params: {
                     menuId: item.id.toString(),
                     menuName: item.name,
