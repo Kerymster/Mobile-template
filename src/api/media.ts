@@ -1,7 +1,6 @@
-import axios from 'axios';
-import { getAuthTokenOrThrow } from '../utils/auth';
 import { ContentItem } from '../utils/types';
 import { ENDPOINTS } from './constants/endpoints';
+import client from './client';
 
 export interface LabelDetailResponse {
   labelId: number;
@@ -15,17 +14,8 @@ export const getMediaList = async (
   page: number = 0,
   size: number = 16
 ): Promise<LabelDetailResponse> => {
-  const token = await getAuthTokenOrThrow();
-
-  const response = await axios.get<LabelDetailResponse>(
-    ENDPOINTS.MEDIA_LIST(labelId.toString(), page, size),
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    }
+  const response = await client.get<LabelDetailResponse>(
+    ENDPOINTS.MEDIA_LIST(labelId.toString(), page, size)
   );
 
   return response.data;

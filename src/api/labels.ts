@@ -1,6 +1,5 @@
-import axios from 'axios';
-import { getAuthTokenOrThrow } from '../utils/auth';
 import { Label } from '../utils/types';
+import client from './client';
 import { ENDPOINTS } from './constants/endpoints';
 
 export interface CategoryDetailResponse {
@@ -12,17 +11,8 @@ export interface CategoryDetailResponse {
 export const getLabels = async (
   categoryId: number
 ): Promise<CategoryDetailResponse> => {
-  const token = await getAuthTokenOrThrow();
-
-  const response = await axios.get<CategoryDetailResponse>(
-    ENDPOINTS.CATEGORY(categoryId.toString()),
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    }
+  const response = await client.get<CategoryDetailResponse>(
+    ENDPOINTS.CATEGORY(categoryId.toString())
   );
 
   return response.data;

@@ -1,6 +1,5 @@
-import axios from 'axios';
-import { API_URL } from '~/constants';
-import { getAuthTokenOrThrow } from '../utils/auth';
+import client from './client';
+import { ENDPOINTS } from './constants/endpoints';
 
 export interface MenuItem {
   id: number;
@@ -8,15 +7,7 @@ export interface MenuItem {
 }
 
 export const getMenu = async (): Promise<MenuItem[]> => {
-  const token = await getAuthTokenOrThrow();
-
-  const response = await axios.get<MenuItem[]>(`${API_URL}/client/menu`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await client.get<MenuItem[]>(ENDPOINTS.MENU());
 
   return response.data;
 };

@@ -1,18 +1,9 @@
-import axios from 'axios';
-import { getAuthTokenOrThrow } from '../utils/auth';
 import { Profile, ProfilesResponse } from '../utils/types';
 import { ENDPOINTS } from './constants/endpoints';
+import client from './client';
 
 export const getProfiles = async (): Promise<Profile[]> => {
-  const token = await getAuthTokenOrThrow();
-
-  const response = await axios.get<ProfilesResponse>(ENDPOINTS.PROFILES(), {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await client.get<ProfilesResponse>(ENDPOINTS.PROFILES());
 
   return response.data;
 };
@@ -20,19 +11,10 @@ export const getProfiles = async (): Promise<Profile[]> => {
 export const selectProfile = async (
   profileId: number
 ): Promise<{ token: string }> => {
-  const token = await getAuthTokenOrThrow();
-
-  const response = await axios.post<{ token: string }>(
+  const response = await client.post<{ token: string }>(
     ENDPOINTS.SELECT_PROFILE(),
     {
       id: profileId,
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
     }
   );
 
