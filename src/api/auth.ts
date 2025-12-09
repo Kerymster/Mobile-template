@@ -1,12 +1,11 @@
 import axios from 'axios';
-import { API_URL } from '~/constants';
 import { LoginResponse } from '~/utils/types';
+import { ENDPOINTS } from './constants/endpoints';
 
 export const login = async (
   username: string,
   password: string
 ): Promise<LoginResponse> => {
-  // Validate inputs
   const trimmedUsername = username?.trim() || '';
   const trimmedPassword = password?.trim() || '';
 
@@ -15,7 +14,7 @@ export const login = async (
   }
 
   const response = await axios.post<LoginResponse>(
-    `${API_URL}/auth/user/login`,
+    ENDPOINTS.LOGIN(),
     {
       username: trimmedUsername,
       password: trimmedPassword,

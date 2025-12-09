@@ -65,14 +65,21 @@ export default function CategoryScreen() {
             horizontal
             data={banners}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <Image
-                source={{
-                  uri: `https://atlas.saatteknoloji.com.tr/${item.poster}`,
-                }}
-                style={styles.bannerImage}
-              />
-            )}
+            renderItem={({ item }) => {
+              const horizontalPoster = item.posters?.find(
+                (poster) => poster.vertical === false
+              );
+              const posterUrl = horizontalPoster?.url || item.posters?.[0]?.url;
+              if (!posterUrl) return null;
+              return (
+                <Image
+                  source={{
+                    uri: posterUrl,
+                  }}
+                  style={styles.bannerImage}
+                />
+              );
+            }}
             style={{ marginBottom: 16 }}
             showsHorizontalScrollIndicator={false}
           />

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { API_URL } from '~/constants';
 import { getAuthTokenOrThrow } from '../utils/auth';
 import { BannerAndCategoriesResponse } from '../utils/types';
+import { ENDPOINTS } from './constants/endpoints';
 
 export const getBannerAndCategories = async (
   menuId: string
@@ -9,7 +9,7 @@ export const getBannerAndCategories = async (
   const token = await getAuthTokenOrThrow();
 
   const response = await axios.get<BannerAndCategoriesResponse>(
-    `${API_URL}/client/menu/${menuId}`,
+    ENDPOINTS.BANNER_AND_CATEGORIES(menuId),
     {
       headers: {
         'Content-Type': 'application/json',
