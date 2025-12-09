@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Logo from '../assets/icons/logo.svg';
+import Logo from '../../../assets/icons/logo.svg';
 
 export function HeaderLogo() {
   const insets = useSafeAreaInsets();

@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
-import { CustomTabBar } from '../../components/custom-tab-bar';
-import { HeaderLogo } from '../../components/header-logo';
+import { CustomTabBar } from '../../src/components/common/custom-tab-bar';
+import { HeaderLogo } from '../../src/components/common/header-logo';
 
 export default function TabsLayout() {
   return (

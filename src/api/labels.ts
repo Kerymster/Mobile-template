@@ -1,18 +1,12 @@
-import { Label } from '../utils/types';
+import { CategoryDetailResponse } from '../utils/types';
 import client from './client';
 import { ENDPOINTS } from './constants/endpoints';
 
-export interface CategoryDetailResponse {
-  id: number;
-  name: string;
-  labels: Label[];
-}
-
 export const getLabels = async (
-  categoryId: number
+  categoryId: string
 ): Promise<CategoryDetailResponse> => {
   const response = await client.get<CategoryDetailResponse>(
-    ENDPOINTS.CATEGORY(categoryId.toString())
+    ENDPOINTS.CATEGORY(categoryId)
   );
 
   return response.data;

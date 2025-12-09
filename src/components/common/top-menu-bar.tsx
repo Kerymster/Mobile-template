@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { MenuContext } from '../src/context/MenuContext';
+import { MenuContext } from '../../../src/context/MenuContext';
 
 export function TopMenuBar() {
   const { menuItems } = useContext(MenuContext);

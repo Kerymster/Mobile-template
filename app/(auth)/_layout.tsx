@@ -1,6 +1,6 @@
 import { Stack, usePathname } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { HeaderLogo } from '../../components/header-logo';
+import { HeaderLogo } from '../../src/components/common/header-logo';
 
 export default function AuthLayout() {
   const pathname = usePathname();

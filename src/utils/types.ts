@@ -23,11 +23,9 @@ export interface Label {
   name: string;
 }
 
-export interface ContentItem {
-  id: number;
-  poster: string;
-  title?: string;
-  name?: string;
+export interface LabelWithMedia extends Label {
+  media: Content[];
+  loading: boolean;
 }
 
 export interface LoginResponse {
@@ -53,10 +51,12 @@ interface person {
   id: number;
 }
 
-export interface IPoster {
-  type: string;
+interface Poster {
   url: string;
-  vertical: boolean;
+  vertical?: boolean;
+  banner?: boolean;
+  mobileBanner?: boolean;
+  type: string;
 }
 export interface Banner {
   actors: person[];
@@ -67,7 +67,7 @@ export interface Banner {
   id: number;
   imdbRating: number;
   originalTitle: string;
-  posters: IPoster[];
+  posters: Poster[];
   summary: string;
   summaryLong: string;
   title: string;
@@ -81,4 +81,43 @@ export interface BannerAndCategoriesResponse {
   categories: Category[];
   id: number;
   name: string;
+}
+
+export interface Content {
+  id: number;
+  posters: Poster[];
+  title: string;
+  year: number;
+  type: 'MOVIE' | 'SERIES';
+  description: string;
+  trailerUrl?: string;
+  duration: number;
+}
+
+export interface LabelsResponse {
+  id: number;
+  name: string;
+  type: 'STATIC' | 'DYNAMIC';
+  labelType: string | null;
+  contents: Content[];
+  totalContents: number;
+  totalPages: number;
+  vertical: boolean;
+}
+
+export interface TabItem {
+  name: string;
+  label: string;
+  route: string;
+  IconComponent: React.ComponentType<{
+    width?: number;
+    height?: number;
+    color?: string;
+  }>;
+}
+
+export interface CategoryDetailResponse {
+  id: number;
+  name: string;
+  labels: Label[];
 }

@@ -44,8 +44,8 @@ export default function ProfileSelectionScreen() {
       //await AsyncStorage.setItem('profileToken', data.token);
 
       router.push('/(tabs)/home');
-    } catch (err) {
-      console.log('Error selecting profile', err);
+    } catch {
+      Alert.alert('Error selecting profile', 'Please try again later.');
     }
   };
 

@@ -2,21 +2,11 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import ProductsIcon from '../assets/icons/products.svg';
-import SearchIcon from '../assets/icons/search.svg';
-import TabBarHomeIcon from '../assets/icons/tabbar-home.svg';
-import TabBarUserIcon from '../assets/icons/tabbar-user.svg';
-
-interface TabItem {
-  name: string;
-  label: string;
-  route: string;
-  IconComponent: React.ComponentType<{
-    width?: number;
-    height?: number;
-    color?: string;
-  }>;
-}
+import { TabItem } from '~/utils/types';
+import ProductsIcon from '../../../assets/icons/products.svg';
+import SearchIcon from '../../../assets/icons/search.svg';
+import TabBarHomeIcon from '../../../assets/icons/tabbar-home.svg';
+import TabBarUserIcon from '../../../assets/icons/tabbar-user.svg';
 
 const tabs: TabItem[] = [
   {

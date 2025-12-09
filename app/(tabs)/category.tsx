@@ -2,6 +2,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Image,
   StyleSheet,
@@ -10,8 +11,8 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TopMenuBar } from '../../components/top-menu-bar';
 import { getBannerAndCategories } from '../../src/api/categories';
+import { TopMenuBar } from '../../src/components/common/top-menu-bar';
 import { Banner, Category } from '../../src/utils/types';
 
 export default function CategoryScreen() {
@@ -38,8 +39,11 @@ export default function CategoryScreen() {
         const data = await getBannerAndCategories(menuId);
         setBanners(data.banners);
         setCategories(data.categories);
-      } catch (err) {
-        console.log('Error fetching banner and categories', err);
+      } catch {
+        Alert.alert(
+          'Error fetching banner and categories',
+          'Please try again later.'
+        );
       } finally {
         setLoading(false);
       }

@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { Alert } from 'react-native';
 import { getMenu, MenuItem } from '../api/menu';
 import { ProfileContext } from './ProfileContext';
 
@@ -35,8 +36,8 @@ export const MenuProvider = ({ children }: { children: ReactNode }) => {
       }
       const data = await getMenu();
       setMenuItems(data);
-    } catch (err) {
-      console.log('Error fetching menu', err);
+    } catch {
+      Alert.alert('Error fetching menu', 'Please try again later.');
       setMenuItems([]);
     } finally {
       setLoading(false);

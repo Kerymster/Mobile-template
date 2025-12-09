@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TopMenuBar } from '../../components/top-menu-bar';
+import { TopMenuBar } from '../../src/components/common/top-menu-bar';
 import { MenuContext } from '../../src/context/MenuContext';
 import { ProfileContext } from '../../src/context/ProfileContext';
 
